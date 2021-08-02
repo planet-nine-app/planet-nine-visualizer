@@ -24,7 +24,7 @@ export default function PowerKnob() {
       diameter={150}
       min={0}
       max={20000}
-      step={1}
+      step={200}
       value={value}
       onValueChange={setValue}
       ariaLabelledBy={"my-label"}

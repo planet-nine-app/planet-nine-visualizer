@@ -1,5 +1,5 @@
 import './App.css';
-import PowerKnob from './components/PowerKnob';
+import Landing from "./pages/Landing"
 
 function App() {
   return (
@@ -8,9 +8,8 @@ function App() {
         <h1>
           Future home of the Planet Nine Economy Visualizer
         </h1>
-        <h2>Power to Nineum Rarity Distribution</h2>
 
-        <PowerKnob />
+        <Landing />
       </header>
     </div>
   );
