@@ -1,14 +1,16 @@
 import './App.css';
-import NineumTable from './components/NineumTable';
+import PowerKnob from './components/PowerKnob';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
+        <h1>
           Future home of the Planet Nine Economy Visualizer
-        </p>
-        <NineumTable />
+        </h1>
+        <h2>Power to Nineum Rarity Distribution</h2>
+
+        <PowerKnob />
       </header>
     </div>
   );
