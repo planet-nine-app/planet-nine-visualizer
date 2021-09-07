@@ -1,16 +1,16 @@
 import './App.css';
-import PowerKnob from './components/PowerKnob';
+import Input from './components/Input';
 
-function App() {
+function App() 
+{
+  console.log(Input.data)
   return (
     <div className="App">
       <header className="App-header">
         <h1>
-          Future home of the Planet Nine Economy Visualizer
+          Planet Nine Economy Visualizer
         </h1>
-        <h2>Power to Nineum Rarity Distribution</h2>
-
-        <PowerKnob />
+        <Input />
       </header>
     </div>
   );
