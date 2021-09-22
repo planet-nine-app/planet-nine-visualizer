@@ -7,7 +7,7 @@ export default function Input() {
     Power: "",
     TimeHorizon: "",
     Price: "",
-    TotalUsers: "",
+    TotalUsers: "383",
     UsersSpendingPower: "",
     AveragePowerSpentByUsers: "",
   });
@@ -21,15 +21,17 @@ export default function Input() {
   const globalPowerRegen = 5 / 3;
   const powerCap = totalPower / data.TotalUsers;
   const staticMiningEfficiency = 0.75;
-
   const powerToNineum = data.Power / 200;
 
   // formulas
-  const totalAvailablePower = Math.round(globalPowerRegen * data.TimeHorizon);
-  const minedNineumTotal =
-  Math.round(totalAvailablePower * staticMiningEfficiency * powerToNineum);
-  const earnedNineum =
-    (data.UsersSpendingPower * (data.AveragePowerSpentByUsers - 200)) / 200;
+  const totalAvailablePower = Math.round(globalPowerRegen * (data.TimeHorizon * 1440));
+  const minedNineumTotal = Math.round(
+    totalAvailablePower * staticMiningEfficiency * powerToNineum
+  );
+  const earnedNineumCalc =
+    ((data.UsersSpendingPower * (data.AveragePowerSpentByUsers - 200)) / 200)* data.TimeHorizon;
+  // no negative values for earned nineum
+  const earnedNineum = earnedNineumCalc < 0 ? 0 : earnedNineumCalc;
   const totalNineum = minedNineumTotal + earnedNineum;
 
   // nineum rarity probability
@@ -61,142 +63,175 @@ export default function Input() {
 
   // nineum value by rarity
   // currently this is value where the value of a common nineum is equal to the price of nineum.
-  const commonValue = data.Price * (commonOdds / commonOdds).toFixed(2);
-  const nineValue = data.Price * (commonOdds / nineOdds).toFixed(2);
-  const uncommonValue = data.Price * (commonOdds / uncommonOdds).toFixed(2);
-  const rareValue = data.Price * (commonOdds / rareOdds).toFixed(2);
-  const epicValue = data.Price * (commonOdds / epicOdds).toFixed(2);
-  const legendaryValue = data.Price * (commonOdds / legendaryOdds).toFixed(2);
-  const mythicalValue = data.Price * (commonOdds / mythicalOdds).toFixed(2);
+  const commonValue = (data.Price * (commonOdds / commonOdds)).toFixed(2);
+  const nineValue = (data.Price * (commonOdds / nineOdds)).toFixed(2);
+  const uncommonValue = (data.Price * (commonOdds / uncommonOdds)).toFixed(2);
+  const rareValue = (data.Price * (commonOdds / rareOdds)).toFixed(2);
+  const epicValue = (data.Price * (commonOdds / epicOdds)).toFixed(2);
+  const legendaryValue = (data.Price * (commonOdds / legendaryOdds)).toFixed(2);
+  const mythicalValue = (data.Price * (commonOdds / mythicalOdds)).toFixed(2);
+
+  // Total $ earned by rarity
+  const commonEarned = (commonValue * common).toFixed(2);
+  const nineEarned = (nineValue * nine).toFixed(2);
+  const uncommonEarned = (uncommonValue * uncommon).toFixed(2);
+  const rareEarned = (rareValue * rare).toFixed(2);
+  const epicEarned = (epicValue * epic).toFixed(2);
+  const legendaryEarned = (legendaryValue * legendary).toFixed(2);
+  const mythicalEarned = (mythicalValue * mythical).toFixed(2);
+
+  // Total Earned
+  const totalEarned =
+    parseInt(commonEarned +
+    nineEarned +
+    uncommonEarned +
+    rareEarned +
+    epicEarned +
+    legendaryEarned +
+    mythicalEarned).toFixed(2);
 
   return (
-    <Container style={{  color: "aqua",
-      fontFamily: "Orbitron"}}>
+    <Container style={{ color: "aqua", fontFamily: "Orbitron" }}>
       <Row>
         <Col>
           <h2>Please Input Values</h2>
+          {/* This functionality is currently disabled */}
+          {/* <p>
+            <label>Power spent :</label>
+            <br />
+            <input
+              type="number"
+              name="Power"
+              value={data.Power}
+              step="200"
+              min="0"
+              onChange={changedataInfo}
+              id="power"
+            ></input>
+          </p> */}
           <p>
-            <label>
-              Power spent :
-              <input
-                type="number"
-                name="Power"
-                value={data.Power}
-                onChange={changedataInfo}
-                id="power"
-              ></input>
-            </label>
+            <label>Time Horizon (in days):</label>
+            <br />
+            <input
+              type="number"
+              name="TimeHorizon"
+              value={data.TimeHorizon}
+              min="0"
+              onChange={changedataInfo}
+            ></input>
           </p>
           <p>
-            <label>
-              Time Horizon :
-              <input
-                type="number"
-                name="TimeHorizon"
-                value={data.TimeHorizon}
-                onChange={changedataInfo}
-              ></input>
-            </label>
+            <label>Price for one common :</label>
+            <br />
+            <input
+              type="number"
+              name="Price"
+              value={data.Price}
+              min="0"
+              onChange={changedataInfo}
+            ></input>
           </p>
           <p>
-            <label>
-              Average Price of Nineum :
-              <input
-                type="number"
-                name="Price"
-                value={data.Price}
-                onChange={changedataInfo}
-              ></input>
-            </label>
+            <label>Total Users :</label>
+            <br />
+            <input
+              type="number"
+              name="TotalUsers"
+              value={data.TotalUsers}
+              onChange={changedataInfo}
+              placeholder="383"
+              min="383"
+            ></input>
           </p>
           <p>
-            <label>
-              Total Users :
-              <input
-                type="number"
-                name="TotalUsers"
-                value={data.TotalUsers}
-                onChange={changedataInfo}
-                placeholder="383"
-                min="383"
-              ></input>
-            </label>
+            <label>Users Spending Power :</label>
+            <br />
+            <input
+              type="number"
+              name="UsersSpendingPower"
+              value={data.UsersSpendingPower}
+              onChange={changedataInfo}
+            ></input>
           </p>
           <p>
-            <label>
-              Users Spending Power :
-              <input
-                type="number"
-                name="UsersSpendingPower"
-                value={data.UsersSpendingPower}
-                onChange={changedataInfo}
-              ></input>
-            </label>
-          </p>
-          <p>
-            <label>
-              Average Power Spent by Users :
-              <input
-                type="number"
-                name="AveragePowerSpentByUsers"
-                value={data.AveragePowerSpentByUsers}
-                onChange={changedataInfo}
-              ></input>
-            </label>
+            <label>Average Power Spent by Users (per day):</label>
+            <br />
+            <input
+              type="number"
+              name="AveragePowerSpentByUsers"
+              value={data.AveragePowerSpentByUsers}
+              step="100"
+              onChange={changedataInfo}
+            ></input>
           </p>
         </Col>
         <Col>
-        <h2>Calculated Results</h2>
-        <p>Power Cap: {powerCap}</p>
-        <p>Total Available Power: {totalAvailablePower}</p>
-        <p>Mined Nineum Total: {minedNineumTotal}</p>
-        <p>Earned Nineum: {earnedNineum}</p>
-        <p>Total Nineum: {totalNineum}</p>
-
-        <p>Power to Nineum Ratio: {powerToNineum}</p>
-        <p>Total Power: {totalPower}</p>
+          <h2>Calculated Results</h2>
+          <p>Power Cap: {powerCap}</p>
+          <p>Total Available Power: {totalAvailablePower}</p>
+          {/* <p>Mined Nineum Total: {minedNineumTotal}</p> */}
+          <p>Earned Nineum: {earnedNineum}</p>
+          <p>Total Nineum: {totalNineum}</p>
+{/* 
+          <p>Power to Nineum Ratio: {powerToNineum}</p> */}
+          <p>Total Power: {totalPower}</p>
         </Col>
       </Row>
       <Row>
-      <Col>
-        <h1>Rarity Distribution</h1>
+        <Col>
+          <h1>Rarity Distribution</h1>
 
-        <Table striped bordered hover variant="dark">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Common</th>
-              <th>Nine</th>
-              <th>Uncommon</th>
-              <th>Rare</th>
-              <th>Epic</th>
-              <th>Legendary</th>
-              <th>Mythical</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-              <td>{common}</td>
-              <td>{nine}</td>
-              <td>{uncommon}</td>
-              <td>{rare}</td>
-              <td>{epic}</td>
-              <td>{legendary}</td>
-              <td>{mythical}</td>
-            </tr>
-            <tr>
-              <td>Value</td>
-              <td>{commonValue}</td>
-              <td>{nineValue}</td>
-              <td>{uncommonValue}</td>
-              <td>{rareValue}</td>
-              <td>{epicValue}</td>
-              <td>{legendaryValue}</td>
-              <td>{mythicalValue}</td>
-            </tr>
-          </tbody>
-        </Table>
+          <Table responsive striped bordered hover variant="dark">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Common</th>
+                <th>Nine</th>
+                <th>Uncommon</th>
+                <th>Rare</th>
+                <th>Epic</th>
+                <th>Legendary</th>
+                <th>Mythical</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Nineum Earned</td>
+                <td>{common}</td>
+                <td>{nine}</td>
+                <td>{uncommon}</td>
+                <td>{rare}</td>
+                <td>{epic}</td>
+                <td>{legendary}</td>
+                <td>{mythical}</td>
+              </tr>
+              <tr>
+                <td>Value Per Nineum</td>
+                <td>{commonValue}</td>
+                <td>{nineValue}</td>
+                <td>{uncommonValue}</td>
+                <td>{rareValue}</td>
+                <td>{epicValue}</td>
+                <td>{legendaryValue}</td>
+                <td>{mythicalValue}</td>
+              </tr>
+              <tr>
+                <td>Total Value</td>
+                <td>{commonEarned}</td>
+                <td>{nineEarned}</td>
+                <td>{uncommonEarned}</td>
+                <td>{rareEarned}</td>
+                <td>{epicEarned}</td>
+                <td>{legendaryEarned}</td>
+                <td>{mythicalEarned}</td>
+              </tr>
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <h1>Total Earned: ${totalEarned}</h1>
         </Col>
       </Row>
     </Container>

@@ -15,10 +15,19 @@ body {
   font-family: "Orbitron";
 }
 
-.main {
+input {
+  background: transparent;
+  border-color: aqua;
+  border-radius: 3px;
   color: aqua;
-  font-family: "Orbitron"
+  padding-left: 10px;
 }
+
+input:focus {
+  border: solid orange
+}
+
+
 
 img {
   width: 150px;
