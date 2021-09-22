@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { Table } from "react-bootstrap";
+import { Container, Table, Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-
-
 
 export default function Input() {
   const [data, setData] = useState({
@@ -27,9 +25,9 @@ export default function Input() {
   const powerToNineum = data.Power / 200;
 
   // formulas
-  const totalAvailablePower = globalPowerRegen * data.TimeHorizon;
+  const totalAvailablePower = Math.round(globalPowerRegen * data.TimeHorizon);
   const minedNineumTotal =
-    totalAvailablePower * staticMiningEfficiency * powerToNineum;
+  Math.round(totalAvailablePower * staticMiningEfficiency * powerToNineum);
   const earnedNineum =
     (data.UsersSpendingPower * (data.AveragePowerSpentByUsers - 200)) / 200;
   const totalNineum = minedNineumTotal + earnedNineum;
@@ -72,123 +70,135 @@ export default function Input() {
   const mythicalValue = data.Price * (commonOdds / mythicalOdds).toFixed(2);
 
   return (
-    <div>
-      <h2>Please Input Values</h2>
-      <p>
-        <label>
-          Power spent :
-          <input
-            type="number"
-            name="Power"
-            value={data.Power}
-            onChange={changedataInfo}
-          ></input>
-        </label>
-      </p>
-      <p>
-        <label>
-          Time Horizon :
-          <input
-            type="number"
-            name="TimeHorizon"
-            value={data.TimeHorizon}
-            onChange={changedataInfo}
-          ></input>
-        </label>
-      </p>
-      <p>
-        <label>
-          Average Price of Nineum :
-          <input
-            type="number"
-            name="Price"
-            value={data.Price}
-            onChange={changedataInfo}
-          ></input>
-        </label>
-      </p>
-      <p>
-        <label>
-          Total Users :
-          <input
-            type="number"
-            name="TotalUsers"
-            value={data.TotalUsers}
-            onChange={changedataInfo}
-            min="383"
-          ></input>
-        </label>
-      </p>
-      <p>
-        <label>
-          Users Spending Power :
-          <input
-            type="number"
-            name="UsersSpendingPower"
-            value={data.UsersSpendingPower}
-            onChange={changedataInfo}
-          ></input>
-        </label>
-      </p>
-      <p>
-        <label>
-          Average Power Spent by Users :
-          <input
-            type="number"
-            name="AveragePowerSpentByUsers"
-            value={data.AveragePowerSpentByUsers}
-            onChange={changedataInfo}
-          ></input>
-        </label>
-      </p>
-      <h2>Calculated Results</h2>
-      <p>Power Cap: {powerCap}</p>
-      <p>Total Available Power: {totalAvailablePower}</p>
-      <p>Mined Nineum Total: {minedNineumTotal}</p>
-      <p>Earned Nineum: {earnedNineum}</p>
-      <p>Total Nineum: {totalNineum}</p>
+    <Container style={{  color: "aqua",
+      fontFamily: "Orbitron"}}>
+      <Row>
+        <Col>
+          <h2>Please Input Values</h2>
+          <p>
+            <label>
+              Power spent :
+              <input
+                type="number"
+                name="Power"
+                value={data.Power}
+                onChange={changedataInfo}
+                id="power"
+              ></input>
+            </label>
+          </p>
+          <p>
+            <label>
+              Time Horizon :
+              <input
+                type="number"
+                name="TimeHorizon"
+                value={data.TimeHorizon}
+                onChange={changedataInfo}
+              ></input>
+            </label>
+          </p>
+          <p>
+            <label>
+              Average Price of Nineum :
+              <input
+                type="number"
+                name="Price"
+                value={data.Price}
+                onChange={changedataInfo}
+              ></input>
+            </label>
+          </p>
+          <p>
+            <label>
+              Total Users :
+              <input
+                type="number"
+                name="TotalUsers"
+                value={data.TotalUsers}
+                onChange={changedataInfo}
+                placeholder="383"
+                min="383"
+              ></input>
+            </label>
+          </p>
+          <p>
+            <label>
+              Users Spending Power :
+              <input
+                type="number"
+                name="UsersSpendingPower"
+                value={data.UsersSpendingPower}
+                onChange={changedataInfo}
+              ></input>
+            </label>
+          </p>
+          <p>
+            <label>
+              Average Power Spent by Users :
+              <input
+                type="number"
+                name="AveragePowerSpentByUsers"
+                value={data.AveragePowerSpentByUsers}
+                onChange={changedataInfo}
+              ></input>
+            </label>
+          </p>
+        </Col>
+        <Col>
+        <h2>Calculated Results</h2>
+        <p>Power Cap: {powerCap}</p>
+        <p>Total Available Power: {totalAvailablePower}</p>
+        <p>Mined Nineum Total: {minedNineumTotal}</p>
+        <p>Earned Nineum: {earnedNineum}</p>
+        <p>Total Nineum: {totalNineum}</p>
 
-      <p>Power to Nineum Ratio: {powerToNineum}</p>
-      <p>Total Power: {totalPower}</p>
+        <p>Power to Nineum Ratio: {powerToNineum}</p>
+        <p>Total Power: {totalPower}</p>
+        </Col>
+      </Row>
+      <Row>
+      <Col>
+        <h1>Rarity Distribution</h1>
 
-      <h1>Rarity Distribution</h1>
-
-      <Table striped bordered hover variant="dark">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Common</th>
-            <th>Nine</th>
-            <th>Uncommon</th>
-            <th>Rare</th>
-            <th>Epic</th>
-            <th>Legendary</th>
-            <th>Mythical</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td></td>
-            <td>{common}</td>
-            <td>{nine}</td>
-            <td>{uncommon}</td>
-            <td>{rare}</td>
-            <td>{epic}</td>
-            <td>{legendary}</td>
-            <td>{mythical}</td>
-          </tr>
-          <tr>
-            <td>Value</td>
-            <td>{commonValue}</td>
-            <td>{nineValue}</td>
-            <td>{uncommonValue}</td>
-            <td>{rareValue}</td>
-            <td>{epicValue}</td>
-            <td>{legendaryValue}</td>
-            <td>{mythicalValue}</td>
-          </tr>
-        </tbody>
-      </Table>
-    </div>
+        <Table striped bordered hover variant="dark">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Common</th>
+              <th>Nine</th>
+              <th>Uncommon</th>
+              <th>Rare</th>
+              <th>Epic</th>
+              <th>Legendary</th>
+              <th>Mythical</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td>{common}</td>
+              <td>{nine}</td>
+              <td>{uncommon}</td>
+              <td>{rare}</td>
+              <td>{epic}</td>
+              <td>{legendary}</td>
+              <td>{mythical}</td>
+            </tr>
+            <tr>
+              <td>Value</td>
+              <td>{commonValue}</td>
+              <td>{nineValue}</td>
+              <td>{uncommonValue}</td>
+              <td>{rareValue}</td>
+              <td>{epicValue}</td>
+              <td>{legendaryValue}</td>
+              <td>{mythicalValue}</td>
+            </tr>
+          </tbody>
+        </Table>
+        </Col>
+      </Row>
+    </Container>
   );
 }

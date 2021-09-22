@@ -1,17 +1,10 @@
-import './App.css';
-import Input from './components/Input';
+import "./App.css";
+import Input from "./components/Input";
 
-function App() 
-{
-  console.log(Input.data)
+function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>
-          Planet Nine Economy Visualizer
-        </h1>
-        <Input />
-      </header>
+    <div>
+      <Input />
     </div>
   );
 }
